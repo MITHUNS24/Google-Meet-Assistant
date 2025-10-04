@@ -205,7 +205,7 @@
           "parameters": [
             {
               "name": "X-API-Key",
-              "value": "pfSMHdvVdd3iDtkfjn9r1okkrjxR8MVbXh6GkLk3"
+              "value": "your_api_key_here"
             }
           ]
         },
@@ -249,7 +249,7 @@
           "parameters": [
             {
               "name": "X-API-Key",
-              "value": "pfSMHdvVdd3iDtkfjn9r1okkrjxR8MVbXh6GkLk3"
+              "value": "your_api_key_here"
             }
           ]
         },
