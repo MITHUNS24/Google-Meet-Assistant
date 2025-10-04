@@ -1,0 +1,425 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "value": "bd88e72d98f9de0a6eb76d6674e344f7a27c7774ff0465a37a54e7b9f2a635a4@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Mine"
+        },
+        "triggerOn": "eventStarted",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        160
+      ],
+      "id": "945ab731-7d63-47da-a7f7-d4b2c3637ec2",
+      "name": "Google Calendar Trigger",
+      "retryOnFail": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "Fa7u2n3lpbcEGwIn",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92c1f401-52f7-4297-9e16-3766002f398f",
+              "name": "hangoutLink",
+              "value": "={{ $('Google Calendar Trigger').item.json.hangoutLink.match(/\\/([a-z]{3}-[a-z]{4}-[a-z]{3})/)[1]}}",
+              "type": "string"
+            },
+            {
+              "id": "f3d9fa8d-a8a0-448e-b844-d10534035cc8",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        160
+      ],
+      "id": "1e39d024-0f7f-4bdd-898f-19672dec6878",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { meetLink: $json[\"hangoutLink\"] } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        160
+      ],
+      "id": "46aad824-a309-4199-90b2-154bd73dcba8",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "content": "## Google Meet ID",
+        "height": 340,
+        "width": 680,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        48
+      ],
+      "id": "93bfdb87-087f-4c8e-9c26-4386eb091292",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Joining Bot to GoogleMeet",
+        "height": 340,
+        "width": 320,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        624,
+        48
+      ],
+      "id": "30e0a28d-db83-4964-a1ff-76ddad0cecf2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Getting Transcript",
+        "height": 340,
+        "width": 500,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1232,
+        48
+      ],
+      "id": "dff63a89-efb2-4e30-a3cf-927328c6b81b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Creating Summary and Sending Email",
+        "height": 340,
+        "width": 560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1744,
+        48
+      ],
+      "id": "d024b4ad-827b-48b0-8636-528fb72380e9",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $('Google Calendar Trigger').item.json.end.dateTime }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        208
+      ],
+      "id": "27522896-e566-4f4c-8f99-032c5c425d12",
+      "name": "Wait",
+      "webhookId": "5284983e-c43d-4bbf-85f2-4fecddaea831"
+    },
+    {
+      "parameters": {
+        "sendTo": "=mithuns.23cse@cambridge.edu.in\n",
+        "subject": "={{ $json.message.content.email_subject }}",
+        "emailType": "text",
+        "message": "={{ $json.message.content.email_body }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2080,
+        160
+      ],
+      "id": "549d766c-4207-4cf1-a85f-66264540e3b3",
+      "name": "Send a message1",
+      "webhookId": "8dfb22d5-deb1-4025-a56a-9f865ba9b211",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PiGgCL5hKpTEs6TF",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## EndTime",
+        "height": 256,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        960,
+        112
+      ],
+      "id": "a121e777-883e-4df3-9ee3-b240bc16c052",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloud.vexa.ai/bots",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "pfSMHdvVdd3iDtkfjn9r1okkrjxR8MVbXh6GkLk3"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "platform",
+              "value": "google_meet"
+            },
+            {
+              "name": "native_meeting_id",
+              "value": "={{ $json.hangoutLink }}"
+            },
+            {
+              "name": "language",
+              "value": "en"
+            },
+            {
+              "name": "bot_name",
+              "value": "MyMeetingBot"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        160
+      ],
+      "id": "8d3281f7-238e-44f4-9d15-d3df3a88a982",
+      "name": "JoiningBotToMeeting1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.cloud.vexa.ai/transcripts/google_meet/{{ $json.native_meeting_id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "pfSMHdvVdd3iDtkfjn9r1okkrjxR8MVbXh6GkLk3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1328,
+        144
+      ],
+      "id": "276b2e94-44bc-4a50-8291-20d410f771ad",
+      "name": "GettingTranscript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea99f3a2-e022-4c7d-9d6a-ac271734c671",
+              "name": "transcript",
+              "value": "={{ $json.segments.map(s => `${s.speaker}: ${s.text.trim()}`).join('\\n') }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        144
+      ],
+      "id": "afb39b9c-6746-4e1a-9906-b636836adf71",
+      "name": "JoiningSegments"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Write a professional follow-up email to someone who missed the following meeting. The email should sound friendly but informative.\nNever mention names cause you dont know them.\n\n\nInclude:\n- A warm opening line acknowledging their absence.\n- A short TL;DR section (3–5 bullet points).\n- A detailed summary of what was discussed.\n- Key decisions that were made.\n- Any action items or follow-ups assigned.\n- Anything they need to know to catch up or contribute afterward.\n- A closing line offering help if they have questions.\n- Sign off as Tim\n\nUse markdown formatting for readability if possible.\n\nMeeting Transcript:\n{{ $json.transcript }}\nOutput the Email Body And the Email Subject Line "
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1776,
+        160
+      ],
+      "id": "16a787d6-327e-4bb0-9ec9-036ed3b7e66e",
+      "name": "Trancription_Summary",
+      "credentials": {
+        "openAiApi": {
+          "id": "vrmtLM8gUjtnYyr6",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Calendar Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "JoiningBotToMeeting1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "GettingTranscript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JoiningBotToMeeting1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GettingTranscript": {
+      "main": [
+        [
+          {
+            "node": "JoiningSegments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JoiningSegments": {
+      "main": [
+        [
+          {
+            "node": "Trancription_Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trancription_Summary": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3f955a55-686b-4455-af5b-71514150ac5a",
+  "meta": {
+    "instanceId": "c871e64220975596998a3a05813bc0534c20d8b2201420d269aabcdaeb2bdf5f"
+  },
+  "id": "A1coaTwcnyClFliR",
+  "tags": []
+}
